@@ -17,48 +17,56 @@ export const SERVICES = [
     description:
       '由註冊牙醫進行詳細檢查，配合數碼 X 光評估，及早發現蛀牙、牙周問題與其他隱患。',
     icon: 'checkup',
+    image: '/images/services/smile.jpg',
   },
   {
     title: '專業洗牙及牙周護理',
     description:
       '溫和去除牙石與牙菌膜，並提供個人化的牙周護理建議，守護牙齦健康。',
     icon: 'cleaning',
+    image: '/images/services/smile.jpg',
   },
   {
     title: '牙齒美白',
     description:
       '採用安全有效的美白方案，按牙齒狀況調整療程強度，自然提亮笑容。',
     icon: 'whitening',
+    image: '/images/services/whitening.jpg',
   },
   {
     title: '隱形矯齒',
     description:
       '近乎隱形的牙箍設計，舒適貼服，讓你在日常生活中低調地改善牙齒排列。',
     icon: 'aligner',
+    image: '/images/services/aligners.jpg',
   },
   {
     title: '植牙修復',
     description:
       '以數碼技術規劃植牙位置，為缺失牙齒提供穩固、外觀自然的長遠修復方案。',
     icon: 'implant',
+    image: '/images/services/implant.jpg',
   },
   {
     title: '兒童齒科',
     description:
       '以耐心及鼓勵方式照顧小朋友，建立良好的護齒習慣，讓看牙變成輕鬆經驗。',
     icon: 'kids',
+    image: '/images/services/kids.jpg',
   },
   {
     title: '杜牙根（根管治療）',
     description:
       '盡力保留受感染或受損的天然牙齒，舒緩痛楚，恢復正常咀嚼功能。',
     icon: 'rootcanal',
+    image: '/images/services/root-canal.jpg',
   },
   {
     title: '牙冠及牙橋',
     description:
       '為脆弱或缺損的牙齒度身訂造修復體，兼顧耐用度與自然外觀。',
     icon: 'crown',
+    image: '/images/services/veneers.jpg',
   },
 ];
 

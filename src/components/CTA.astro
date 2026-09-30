@@ -4,25 +4,29 @@ import Icon from './Icon.astro';
 ---
 
 <section
-  class="relative overflow-hidden bg-gradient-to-br from-brand-700 via-brand-600 to-brand-500 py-18 sm:py-20"
+  class="relative overflow-hidden py-20 sm:py-24"
   aria-labelledby="cta-heading"
 >
-  <div
-    class="pointer-events-none absolute -top-20 right-0 h-72 w-72 rounded-full bg-white/10 blur-3xl"
-    aria-hidden="true"
-  >
-  </div>
-  <div
-    class="pointer-events-none absolute bottom-0 left-10 h-56 w-56 rounded-full bg-brand-400/30 blur-3xl"
-    aria-hidden="true"
-  >
+  <!-- Tech background -->
+  <div class="absolute inset-0" aria-hidden="true">
+    <img
+      src="/images/cta/tech-bg.jpg"
+      alt=""
+      width="1920"
+      height="1080"
+      loading="lazy"
+      decoding="async"
+      class="h-full w-full object-cover object-center"
+    />
+    <div class="absolute inset-0 bg-ink-900/70"></div>
+    <div class="absolute inset-0 bg-gradient-to-br from-brand-900/50 via-transparent to-brand-700/40"></div>
   </div>
 
-  <div class="relative mx-auto max-w-3xl px-4 text-center sm:px-6">
+  <div class="relative z-10 mx-auto max-w-3xl px-4 text-center sm:px-6">
     <h2 id="cta-heading" class="text-3xl font-bold tracking-tight text-white sm:text-4xl">
       是時候好好照顧你的牙齒了
     </h2>
-    <p class="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-brand-100">
+    <p class="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-white/80">
       無論是例行檢查，還是困擾已久的牙齒問題，都歡迎與我們聊聊。首次諮詢免費，沒有任何壓力。
     </p>
     <a
@@ -34,6 +38,6 @@ import Icon from './Icon.astro';
       <Icon name="whatsapp" class="h-5 w-5" />
       立即 WhatsApp 預約
     </a>
-    <p class="mt-5 text-sm text-brand-200">辦公時間內，我們通常於 30 分鐘內回覆</p>
+    <p class="mt-5 text-sm text-white/55">辦公時間內，我們通常於 30 分鐘內回覆</p>
   </div>
 </section>
