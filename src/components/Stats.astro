@@ -1,12 +1,20 @@
 ---
-import { STATS } from '../data/site';
+import type { Locale } from '../i18n/config';
+import { useTranslations } from '../i18n/translations';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
 ---
 
-<section class="border-y border-brand-100/70 bg-white" aria-label="診所數據">
+<section class="border-y border-brand-100/70 bg-white" aria-label={t.a11y.stats}>
   <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
     <dl class="grid grid-cols-2 gap-8 lg:grid-cols-4">
       {
-        STATS.map((stat) => (
+        t.stats.map((stat) => (
           <div class="text-center">
             <dt class="order-2 mt-1.5 block text-sm font-medium text-ink-500">{stat.label}</dt>
             <dd class="order-1 text-3xl font-bold tracking-tight text-brand-700 sm:text-4xl">

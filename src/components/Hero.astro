@@ -1,13 +1,21 @@
 ---
-import { WHATSAPP_URL } from '../data/site';
+import type { Locale } from '../i18n/config';
+import { getWhatsAppUrl, useTranslations } from '../i18n/translations';
 import Icon from './Icon.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const whatsapp = getWhatsAppUrl(locale);
 ---
 
 <section
   class="relative flex h-[85vh] min-h-[600px] items-center overflow-hidden"
   aria-labelledby="hero-heading"
 >
-  <!-- Full-bleed background -->
   <div class="absolute inset-0" aria-hidden="true">
     <img
       src="/images/hero/hero-tooth.jpg"
@@ -18,7 +26,6 @@ import Icon from './Icon.astro';
       fetchpriority="high"
       class="hero-bg-zoom h-full w-full object-cover object-[68%_center] sm:object-center"
     />
-    <!-- Soft dark gradient L→R for text readability -->
     <div
       class="absolute inset-0 bg-gradient-to-r from-ink-900/80 via-ink-900/55 to-ink-900/15 sm:via-ink-900/45 sm:to-transparent"
     >
@@ -31,45 +38,40 @@ import Icon from './Icon.astro';
         class="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-sm font-medium text-white/95 backdrop-blur-sm"
       >
         <span class="h-2 w-2 rounded-full bg-brand-300" aria-hidden="true"></span>
-        香港註冊牙醫・中環及尖沙咀應診
+        {t.hero.badge}
       </p>
 
       <h1
         id="hero-heading"
         class="mt-6 text-4xl font-bold leading-[1.2] tracking-tight text-white sm:text-5xl lg:text-[3.4rem]"
       >
-        讓每一次微笑，
+        {t.hero.headlineBefore}
         <br class="hidden sm:block" />
-        都源自<span class="text-brand-200">安心與信任</span>
+        {t.hero.headlineMiddle}<span class="text-brand-200">{t.hero.headlineAccent}</span>
       </h1>
 
-      <p class="mt-6 max-w-lg text-lg leading-relaxed text-white/80">
-        我們相信，好的牙科治療由清晰溝通開始。在 Apex Oral
-        Care，你會先了解自己的口腔狀況與每個方案的費用，然後在沒有壓力的環境下，作出最適合自己的決定。
-      </p>
+      <p class="mt-6 max-w-lg text-lg leading-relaxed text-white/80">{t.hero.body}</p>
 
       <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
         <a
-          href={WHATSAPP_URL}
+          href={whatsapp}
           target="_blank"
           rel="noopener noreferrer"
           class="inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-brand-600 px-8 py-4 text-base font-semibold text-white shadow-lift transition-all hover:-translate-y-0.5 hover:bg-brand-500 sm:w-auto"
         >
           <Icon name="whatsapp" class="h-5 w-5" />
-          WhatsApp 預約諮詢
+          {t.cta.whatsappConsult}
         </a>
         <a
           href="#services"
           class="inline-flex w-full items-center justify-center gap-2 rounded-full border-2 border-white/50 bg-white/10 px-8 py-[14px] text-base font-semibold text-white backdrop-blur-sm transition-all hover:border-white hover:bg-white/20 sm:w-auto"
         >
-          了解診療服務
+          {t.cta.viewServices}
           <span aria-hidden="true">→</span>
         </a>
       </div>
 
-      <p class="mt-6 text-sm text-white/55">
-        首次諮詢免費・療程前提供書面報價・絕無隱藏收費
-      </p>
+      <p class="mt-6 text-sm text-white/55">{t.hero.note}</p>
     </div>
   </div>
 </section>

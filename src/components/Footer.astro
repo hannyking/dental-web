@@ -1,15 +1,24 @@
 ---
-import { LOCATIONS, NAV_ITEMS, WHATSAPP_URL } from '../data/site';
+import type { Locale } from '../i18n/config';
+import { getLocations, getWhatsAppUrl, useTranslations } from '../i18n/translations';
 import Icon from './Icon.astro';
 
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const locations = getLocations(locale);
+const whatsapp = getWhatsAppUrl(locale);
 const year = new Date().getFullYear();
+const copyright = t.footer.copyright.replace('{year}', String(year));
 ---
 
 <footer class="bg-ink-900 text-cream-100" aria-labelledby="footer-heading">
-  <h2 id="footer-heading" class="sr-only">頁尾資訊</h2>
+  <h2 id="footer-heading" class="sr-only">{t.a11y.footer}</h2>
   <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
     <div class="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
-      <!-- Brand -->
       <div class="lg:col-span-1">
         <div class="flex items-center gap-2.5">
           <span
@@ -24,29 +33,26 @@ const year = new Date().getFullYear();
           </span>
           <span class="leading-tight">
             <span class="block text-[15px] font-bold tracking-wide text-white">Apex Oral Care</span>
-            <span class="block text-xs font-medium text-brand-300">卓峰口腔護理</span>
+            <span class="block text-xs font-medium text-brand-300">{t.brand.nameZh}</span>
           </span>
         </div>
-        <p class="mt-5 text-sm leading-relaxed text-cream-100/70">
-          以專業、透明與同理心，守護你和家人的口腔健康。中環及尖沙咀應診。
-        </p>
+        <p class="mt-5 text-sm leading-relaxed text-cream-100/70">{t.footer.tagline}</p>
         <a
-          href={WHATSAPP_URL}
+          href={whatsapp}
           target="_blank"
           rel="noopener noreferrer"
           class="mt-6 inline-flex items-center gap-2 rounded-full bg-white/10 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-white/20"
         >
           <Icon name="whatsapp" class="h-4.5 w-4.5" />
-          WhatsApp 預約
+          {t.cta.whatsapp}
         </a>
       </div>
 
-      <!-- Quick links -->
-      <nav aria-label="頁尾選單">
-        <h3 class="text-sm font-bold uppercase tracking-wider text-brand-300">快速連結</h3>
+      <nav aria-label={t.a11y.footerNav}>
+        <h3 class="text-sm font-bold uppercase tracking-wider text-brand-300">{t.footer.quickLinks}</h3>
         <ul class="mt-5 space-y-3">
           {
-            NAV_ITEMS.map((item) => (
+            t.nav.map((item) => (
               <li>
                 <a
                   href={item.href}
@@ -60,12 +66,12 @@ const year = new Date().getFullYear();
         </ul>
       </nav>
 
-      <!-- Locations -->
       {
-        LOCATIONS.map((clinic) => (
+        locations.map((clinic) => (
           <div>
             <h3 class="text-sm font-bold uppercase tracking-wider text-brand-300">
-              {clinic.district}診所
+              {clinic.district}
+              {t.locations.clinicSuffix}
             </h3>
             <address class="mt-5 space-y-3 text-sm not-italic leading-relaxed text-cream-100/70">
               <p class="flex gap-2.5">
@@ -84,9 +90,12 @@ const year = new Date().getFullYear();
               <p class="flex gap-2.5">
                 <Icon name="clock" class="mt-0.5 h-4 w-4 shrink-0 text-brand-400" />
                 <span>
-                  星期一至五 10:00–19:30
-                  <br />
-                  星期六 09:30–17:00
+                  {t.locations.hoursShort.split('\n').map((line, i) => (
+                    <>
+                      {i > 0 && <br />}
+                      {line}
+                    </>
+                  ))}
                 </span>
               </p>
             </address>
@@ -98,8 +107,8 @@ const year = new Date().getFullYear();
     <div
       class="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 text-xs text-cream-100/50 sm:flex-row"
     >
-      <p>© {year} Apex Oral Care 卓峰口腔護理。版權所有。</p>
-      <p>本網站資訊僅供參考，不能取代專業牙醫診斷。</p>
+      <p>{copyright}</p>
+      <p>{t.footer.disclaimer}</p>
     </div>
   </div>
 </footer>

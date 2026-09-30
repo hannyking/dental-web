@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-sans: "Noto Sans TC", "Noto Sans SC", "PingFang TC", "PingFang SC", "Microsoft JhengHei", ui-sans-serif, system-ui, -apple-system, sans-serif;
 
   /* Soft blue palette */
   --color-brand-50: #f0f7fc;

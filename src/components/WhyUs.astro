@@ -1,5 +1,13 @@
 ---
-import { WHY_US } from '../data/site';
+import type { Locale } from '../i18n/config';
+import { useTranslations } from '../i18n/translations';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
 ---
 
 <section
@@ -9,49 +17,46 @@ import { WHY_US } from '../data/site';
 >
   <div class="mx-auto max-w-6xl px-4 sm:px-6">
     <div class="mx-auto max-w-2xl text-center">
-      <p class="text-sm font-semibold uppercase tracking-widest text-brand-600">我們的理念</p>
+      <p class="text-sm font-semibold uppercase tracking-widest text-brand-600">{t.whyUs.eyebrow}</p>
       <h2
         id="why-us-heading"
         class="mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl"
       >
-        為甚麼病人選擇信任我們
+        {t.whyUs.title}
       </h2>
-      <p class="mt-4 text-lg leading-relaxed text-ink-500">
-        牙科治療關乎健康，也關乎信任。這四個承諾，是我們每天堅持的標準。
-      </p>
+      <p class="mt-4 text-lg leading-relaxed text-ink-500">{t.whyUs.body}</p>
     </div>
 
-    <!-- Clinic atmosphere images -->
     <div class="mt-12 grid gap-5 sm:grid-cols-2">
       <figure class="overflow-hidden rounded-[var(--radius-card)] shadow-soft">
         <img
           src="/images/clinic/waiting-area.jpg"
-          alt="明亮舒適的診所等候區"
+          alt={t.whyUs.waitingAlt}
           width="960"
           height="640"
           loading="lazy"
           decoding="async"
           class="aspect-[3/2] h-full w-full object-cover"
         />
-        <figcaption class="sr-only">診所等候區</figcaption>
+        <figcaption class="sr-only">{t.whyUs.waitingCaption}</figcaption>
       </figure>
       <figure class="overflow-hidden rounded-[var(--radius-card)] shadow-soft">
         <img
           src="/images/clinic/consultation.jpg"
-          alt="牙醫與病人溫柔溝通"
+          alt={t.whyUs.consultAlt}
           width="960"
           height="640"
           loading="lazy"
           decoding="async"
           class="aspect-[3/2] h-full w-full object-cover"
         />
-        <figcaption class="sr-only">牙醫諮詢情景</figcaption>
+        <figcaption class="sr-only">{t.whyUs.consultCaption}</figcaption>
       </figure>
     </div>
 
     <div class="mt-8 grid gap-5 sm:grid-cols-2">
       {
-        WHY_US.map((point, index) => (
+        t.whyUs.items.map((point, index) => (
           <article class="flex gap-5 rounded-[var(--radius-card)] border border-brand-100/70 bg-white p-7 shadow-soft">
             <span
               class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-600 text-base font-bold text-white"

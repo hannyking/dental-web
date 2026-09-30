@@ -1,6 +1,18 @@
 ---
-import { NAV_ITEMS, WHATSAPP_URL } from '../data/site';
+import type { Locale } from '../i18n/config';
+import { getLocalePath } from '../i18n/config';
+import { getWhatsAppUrl, useTranslations } from '../i18n/translations';
 import Icon from './Icon.astro';
+import LangSwitcher from './LangSwitcher.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const whatsapp = getWhatsAppUrl(locale);
+const homeHref = getLocalePath(locale);
 ---
 
 <header
@@ -8,9 +20,8 @@ import Icon from './Icon.astro';
   class="sticky top-0 z-50 bg-cream-50/85 backdrop-blur-md border-b border-brand-100/60 transition-shadow duration-300"
 >
   <div class="mx-auto max-w-6xl px-4 sm:px-6">
-    <div class="flex h-16 items-center justify-between gap-4">
-      <!-- Logo -->
-      <a href="/" class="flex items-center gap-2.5 shrink-0" aria-label="Apex Oral Care 首頁">
+    <div class="flex h-16 items-center justify-between gap-3">
+      <a href={homeHref} class="flex items-center gap-2.5 shrink-0" aria-label={t.a11y.home}>
         <span
           class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-soft"
           aria-hidden="true"
@@ -23,15 +34,14 @@ import Icon from './Icon.astro';
         </span>
         <span class="leading-tight">
           <span class="block text-[15px] font-bold tracking-wide text-ink-900">Apex Oral Care</span>
-          <span class="block text-xs font-medium text-brand-700">卓峰口腔護理</span>
+          <span class="block text-xs font-medium text-brand-700">{t.brand.nameZh}</span>
         </span>
       </a>
 
-      <!-- Desktop nav -->
-      <nav aria-label="主選單" class="hidden lg:block">
+      <nav aria-label={t.a11y.mainNav} class="hidden lg:block">
         <ul class="flex items-center gap-1">
           {
-            NAV_ITEMS.map((item) => (
+            t.nav.map((item) => (
               <li>
                 <a
                   href={item.href}
@@ -46,25 +56,27 @@ import Icon from './Icon.astro';
       </nav>
 
       <div class="flex items-center gap-2">
-        <!-- Desktop CTA -->
+        <LangSwitcher locale={locale} />
+
         <a
-          href={WHATSAPP_URL}
+          href={whatsapp}
           target="_blank"
           rel="noopener noreferrer"
           class="hidden sm:inline-flex items-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-soft transition-all hover:bg-brand-700 hover:shadow-lift"
         >
           <Icon name="whatsapp" class="h-4 w-4" />
-          WhatsApp 預約
+          {t.cta.whatsapp}
         </a>
 
-        <!-- Mobile menu button -->
         <button
           id="menu-toggle"
           type="button"
           class="inline-flex h-10 w-10 items-center justify-center rounded-lg text-ink-700 transition-colors hover:bg-brand-50 lg:hidden"
           aria-expanded="false"
           aria-controls="mobile-menu"
-          aria-label="開啟選單"
+          aria-label={t.a11y.openMenu}
+          data-label-open={t.a11y.openMenu}
+          data-label-close={t.a11y.closeMenu}
         >
           <span id="menu-icon-open"><Icon name="menu" class="h-6 w-6" /></span>
           <span id="menu-icon-close" class="hidden"><Icon name="close" class="h-6 w-6" /></span>
@@ -73,11 +85,10 @@ import Icon from './Icon.astro';
     </div>
   </div>
 
-  <!-- Mobile nav -->
-  <nav id="mobile-menu" aria-label="手機選單" class="hidden border-t border-brand-100/60 bg-cream-50 lg:hidden">
+  <nav id="mobile-menu" aria-label={t.a11y.mobileNav} class="hidden border-t border-brand-100/60 bg-cream-50 lg:hidden">
     <ul class="mx-auto max-w-6xl space-y-1 px-4 py-4 sm:px-6">
       {
-        NAV_ITEMS.map((item) => (
+        t.nav.map((item) => (
           <li>
             <a
               href={item.href}
@@ -90,13 +101,13 @@ import Icon from './Icon.astro';
       }
       <li class="pt-2">
         <a
-          href={WHATSAPP_URL}
+          href={whatsapp}
           target="_blank"
           rel="noopener noreferrer"
           class="flex items-center justify-center gap-2 rounded-full bg-brand-600 px-5 py-3 text-base font-semibold text-white shadow-soft"
         >
           <Icon name="whatsapp" class="h-5 w-5" />
-          WhatsApp 預約
+          {t.cta.whatsapp}
         </a>
       </li>
     </ul>
@@ -109,33 +120,31 @@ import Icon from './Icon.astro';
   const iconOpen = document.getElementById('menu-icon-open');
   const iconClose = document.getElementById('menu-icon-close');
   const header = document.getElementById('site-header');
+  const openLabel = toggle?.getAttribute('data-label-open') ?? 'Open menu';
+  const closeLabel = toggle?.getAttribute('data-label-close') ?? 'Close menu';
 
   toggle?.addEventListener('click', () => {
     const expanded = toggle.getAttribute('aria-expanded') === 'true';
     toggle.setAttribute('aria-expanded', String(!expanded));
-    toggle.setAttribute('aria-label', expanded ? '開啟選單' : '關閉選單');
+    toggle.setAttribute('aria-label', expanded ? openLabel : closeLabel);
     menu?.classList.toggle('hidden');
     iconOpen?.classList.toggle('hidden');
     iconClose?.classList.toggle('hidden');
   });
 
-  // Close menu when a link is tapped
   menu?.querySelectorAll('a').forEach((link) => {
     link.addEventListener('click', () => {
       menu.classList.add('hidden');
       toggle?.setAttribute('aria-expanded', 'false');
+      toggle?.setAttribute('aria-label', openLabel);
       iconOpen?.classList.remove('hidden');
       iconClose?.classList.add('hidden');
     });
   });
 
-  // Subtle shadow on scroll
   const onScroll = () => {
-    if (window.scrollY > 8) {
-      header?.classList.add('shadow-soft');
-    } else {
-      header?.classList.remove('shadow-soft');
-    }
+    if (window.scrollY > 8) header?.classList.add('shadow-soft');
+    else header?.classList.remove('shadow-soft');
   };
   window.addEventListener('scroll', onScroll, { passive: true });
 </script>
